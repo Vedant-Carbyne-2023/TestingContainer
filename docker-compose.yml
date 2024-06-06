@@ -53,4 +53,4 @@ services:
       - vendor
       - workorder
     ports:
-      - "81:80"
+      - "80:80"
