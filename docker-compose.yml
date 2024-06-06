@@ -1,51 +1,56 @@
-version: '3'
 
+version: '3'
 services:
+ 
   workorder:
-    image: vedant2000/workorder:latest
+    build:
+      dockerfile: Dockerfile
+      context: ./workorder
     container_name: workorder
     ports:
       - "8001:8001"
+    restart: always
+
     volumes:
       - .:/app
       - /app/workorder/node_modules
-    environment:
-      - JWT_AUTH_SECRET=secret123
-      - MONGODB_URI=mongodb+srv://vedantjoshi:2RJ5NKApDt32N8t2@cluster0.oxxb2f0.mongodb.net/workorders
-      - PORT=8001
 
-
+    env_file:
+      - ./workorder/.env.dev
   vendor:
-    image: vedant2000/vendor:latest
+    build:
+      dockerfile: Dockerfile
+      context: ./vendor
     container_name: vendor
     ports:
       - "8002:8002"
+    restart: always
+    
     volumes:
       - .:/app
       - /app/vendor/node_modules
-    environment:
-      - JWT_AUTH_SECRET=secret123
-      - MONGODB_URI=mongodb+srv://vedantjoshi:2RJ5NKApDt32N8t2@cluster0.oxxb2f0.mongodb.net/vendors
-      - PORT=8001
-
+    env_file:
+      - ./vendor/.env.dev
   user:
-    image: vedant2000/user:latest
+    build:
+      dockerfile: Dockerfile
+      context: ./user
     container_name: user
     ports:
       - "8003:8003"
+    restart: always
     volumes:
       - .:/app/
       - /app/user/node_modules
-    environment:
-      - JWT_AUTH_SECRET=secret123
-      - MONGODB_URI=mongodb+srv://vedantjoshi:2RJ5NKApDt32N8t2@cluster0.oxxb2f0.mongodb.net/users
-      - PORT=8001
-
-  nginx-proxy:
-    image: vedant2000/proxy:latest
+    env_file:
+      - ./user/.env.dev
+  proxy:
+    build:
+      dockerfile: Dockerfile
+      context: ./proxy
     depends_on:
       - user
       - vendor
       - workorder
     ports:
-      - 80:80
+      - "81:80"
