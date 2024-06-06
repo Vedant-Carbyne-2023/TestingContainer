@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  workorder:
+    image: vedant2000/workorder:latest
+    container_name: workorder
+    ports:
+      - "8001:8001"
+    volumes:
+      - .:/app
+      - /app/workorder/node_modules
+    environment:
+      - JWT_AUTH_SECRET=secret123
+      - MONGODB_URI=mongodb+srv://vedantjoshi:2RJ5NKApDt32N8t2@cluster0.oxxb2f0.mongodb.net/workorders
+      - PORT=8001
+
+
+  vendor:
+    image: vedant2000/vendor:latest
+    container_name: vendor
+    ports:
+      - "8002:8002"
+    volumes:
+      - .:/app
+      - /app/vendor/node_modules
+    environment:
+      - JWT_AUTH_SECRET=secret123
+      - MONGODB_URI=mongodb+srv://vedantjoshi:2RJ5NKApDt32N8t2@cluster0.oxxb2f0.mongodb.net/vendors
+      - PORT=8001
+
+  user:
+    image: vedant2000/user:latest
+    container_name: user
+    ports:
+      - "8003:8003"
+    volumes:
+      - .:/app/
+      - /app/user/node_modules
+    environment:
+      - JWT_AUTH_SECRET=secret123
+      - MONGODB_URI=mongodb+srv://vedantjoshi:2RJ5NKApDt32N8t2@cluster0.oxxb2f0.mongodb.net/users
+      - PORT=8001
+
+  nginx-proxy:
+    image: vedant2000/proxy:latest
+    depends_on:
+      - user
+      - vendor
+      - workorder
+    ports:
+      - 80:80
