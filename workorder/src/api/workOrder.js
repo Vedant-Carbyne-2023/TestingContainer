@@ -24,7 +24,11 @@ module.exports = (app) => {
 
     app.post('/get-all-workOrder', service.getAllWorkOrder);
     app.post('/get-workOrder-by-id', service.getWorkOrderById);
+    app.post('/get-wo-termsAndConditionTemplate', service.getAllTermAndConditionTemplate);
+    app.post('/get-wo-termsAndConditionTemplate-selectedTemplate', service.getTermAndConditionTemplate);
 
+    app.post('/create-workOrder', service.createWorkOrder);
+    app.post('/get-all-workOrder-by-id', service.getAllWorkOrderById);
     app.put('/cart',  async (req,res,next) => {
 
         const { _id } = req.user;
