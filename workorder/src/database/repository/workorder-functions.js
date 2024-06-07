@@ -736,7 +736,7 @@ class WorkOrderController {
         workOrderId: workOrderId,
       });
   
-      let message = `${decode.name} wants all WorkOrder with id: ${req.body.workOrderId} on ${getDate.getCurrentDate()}`;
+      let message = `${decode.name} wants all WorkOrder with id: ${req.body.workOrderId} on ${getCurrentDate()}`;
       await Logs.create({
         logs: message,
         userId: req.body.userId,
