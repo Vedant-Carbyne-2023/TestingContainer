@@ -51,7 +51,7 @@ services:
       context: ./inventory
     container_name: inventory
     ports:
-      - "8004:8003"
+      - "8004:8004"
       - "3004:3004"
     restart: always
 
@@ -67,7 +67,7 @@ services:
       context: ./inward-inventory
     container_name: inward
     ports:
-      - "8005:8001"
+      - "8005:8005"
     restart: always
 
     volumes:
@@ -82,7 +82,7 @@ services:
       context: ./outward-inventory
     container_name: outward
     ports:
-      - "8006:8002"
+      - "8006:8006"
     restart: always
 
     volumes:
