@@ -61,11 +61,11 @@ services:
 
     env_file:
       - ./inventory/.env.dev
-  inward-inventory:
+  inward:
     build:
       dockerfile: Dockerfile
       context: ./inward-inventory
-    container_name: inward-inventory
+    container_name: inward
     ports:
       - "8005:8001"
     restart: always
@@ -76,11 +76,11 @@ services:
 
     env_file:
       - ./inward-inventory/.env.dev
-  outward-inventory:
+  outward:
     build:
       dockerfile: Dockerfile
       context: ./outward-inventory
-    container_name: outward-inventory
+    container_name: outward
     ports:
       - "8006:8002"
     restart: always
@@ -100,7 +100,7 @@ services:
       - vendor
       - workorder
       - inventory
-      - inward-inventory
-      - outward-inventory
+      - inward
+      - outward
     ports:
       - "80:80"
