@@ -1,6 +1,7 @@
 
 version: '3'
 services:
+
  
   workorder:
     build:
@@ -44,6 +45,52 @@ services:
       - /app/user/node_modules
     env_file:
       - ./user/.env.dev
+  inventory:
+    build:
+      dockerfile: Dockerfile
+      context: ./inventory
+    container_name: inventory
+    ports:
+      - "8004:8003"
+      - "3004:3004"
+    restart: always
+
+    volumes:
+      - .:/app
+      - /app/inventory/node_modules
+
+    env_file:
+      - ./inventory/.env.dev
+  inward-inventory:
+    build:
+      dockerfile: Dockerfile
+      context: ./inward-inventory
+    container_name: inward-inventory
+    ports:
+      - "8005:8001"
+    restart: always
+
+    volumes:
+      - .:/app
+      - /app/inward-inventory/node_modules
+
+    env_file:
+      - ./inward-inventory/.env.dev
+  outward-inventory:
+    build:
+      dockerfile: Dockerfile
+      context: ./outward-inventory
+    container_name: outward-inventory
+    ports:
+      - "8006:8002"
+    restart: always
+
+    volumes:
+      - .:/app
+      - /app/outward-inventory/node_modules
+
+    env_file:
+      - ./outward-inventory/.env.dev
   proxy:
     build:
       dockerfile: Dockerfile
@@ -52,5 +99,8 @@ services:
       - user
       - vendor
       - workorder
+      - inventory
+      - inward-inventory
+      - outward-inventory
     ports:
       - "80:80"
